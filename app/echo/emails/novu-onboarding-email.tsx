@@ -27,8 +27,6 @@ interface NovuWelcomeEmailProps {
   welcomeHeaderText?: string;
   belowHeaderText?: string;
   editEmailLink?: string;
-  firstListText?:string;
-  secondListText?:string;
   colorChange?: string;
   components?: any;
   userImage?: string;

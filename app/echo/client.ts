@@ -1,7 +1,6 @@
 import { Echo } from "@novu/echo";
 import { renderEmail } from "./emails/novu-onboarding-email";
 
-
 export const echo = new Echo({
   /**
    * Enable this flag only during local development
@@ -16,7 +15,7 @@ echo.workflow(
       "send-email",
       async (inputs) => {
         return {
-          subject: "You just signed up on Novu!",
+          subject: "A Successful Test on Novu!",
           body: renderEmail(inputs),
         };
       },
@@ -81,5 +80,11 @@ echo.workflow(
       },
     );
   },
-  { payloadSchema: { type: "object", properties: {} } },
+  { payloadSchema: { 
+      type: "object", 
+      properties: {
+
+      }
+    } 
+  },
 );
