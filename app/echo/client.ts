@@ -52,11 +52,6 @@ echo.workflow(
               type: "string", 
               default: "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
             },
-            editEmailLink: {
-              type: "string",
-              default: "https://web.novu.co",
-              format: "uri",
-            },
           },
         },
       },
@@ -81,6 +76,11 @@ echo.workflow(
           type: "string",
           default:
             "https://react-email-demo-bdj5iju9r-resend.vercel.app/static/vercel-arrow.png",
+          format: "uri",
+        },
+        editEmailLink: {
+          type: "string",
+          default: "https://web.novu.co",
           format: "uri",
         },
       }
