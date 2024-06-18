@@ -24,6 +24,7 @@ echo.workflow(
           type: "object",
           properties: {
             components: {
+              title: "Add Custom Fields:",
               type: "array",
               items: {
                 type: "object",
@@ -47,8 +48,13 @@ echo.workflow(
                 },
               },
             },
-            welcomeHeaderText: { type: "string", default: "Welcome to Novu" },
+            welcomeHeaderText: { 
+              title: "Welcome Header",
+              type: "string", 
+              default: "Welcome to Novu"
+            },
             belowHeaderText: {
+              title: "Text Under The Welcome Header",
               type: "string", 
               default: "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
             },
@@ -61,24 +67,28 @@ echo.workflow(
       type: "object", 
       properties: {
         teamImage: {
+          title: "Team Image",
           type: "string",
           default:
             "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down",
           format: "uri",
         },
         userImage: {
+          title: "User Image",
           type: "string",
           default:
             "https://react-email-demo-48zvx380u-resend.vercel.app/static/vercel-user.png",
           format: "uri",
         },
         arrowImage: {
+          title: "Arrow",
           type: "string",
           default:
             "https://react-email-demo-bdj5iju9r-resend.vercel.app/static/vercel-arrow.png",
           format: "uri",
         },
         editEmailLink: {
+          title: "Email Link Button Text",
           type: "string",
           default: "https://web.novu.co",
           format: "uri",
