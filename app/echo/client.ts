@@ -1,14 +1,14 @@
-import { Echo } from "@novu/echo";
+import { Client, workflow } from "@novu/framework";
 import { renderEmail } from "./emails/novu-onboarding-email";
 
-export const echo = new Echo({
+export const client = new Client({
   /**
    * Enable this flag only during local development
    */
-  devModeBypassAuthentication: process.env.NODE_ENV === "development",
+  strictAuthentication: false,
 });
 
-echo.workflow(
+export const welcomeOnboardingEmail = workflow(
   "welcome-onboarding-email",
   async ({ step, payload }) => {
     await step.email(
@@ -49,9 +49,8 @@ echo.workflow(
               },
             },
             welcomeHeaderText: { 
-              title: "Welcome Header",
               type: "string", 
-              default: "Welcome to Novu"
+              default: "Welcome to Novu {{helloWorld}}"
             },
             belowHeaderText: {
               title: "Text Under The Welcome Header",
@@ -92,6 +91,10 @@ echo.workflow(
           type: "string",
           default: "https://web.novu.co",
           format: "uri",
+        },
+        helloWorld: {
+          type: "string",
+          default: "Hello World"
         },
       }
     } 
