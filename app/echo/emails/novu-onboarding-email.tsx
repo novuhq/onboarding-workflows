@@ -261,6 +261,6 @@ const heading = {
   color: "#000000",
 };
 
-export function renderEmail(inputs: any) {
-  return render(<NovuWelcomeEmail {...inputs} />);
+export function renderEmail(inputs: any, payload: any) {
+  return render(<NovuWelcomeEmail {...inputs} {...payload} />);
 }

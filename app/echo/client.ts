@@ -10,13 +10,13 @@ export const echo = new Echo({
 
 echo.workflow(
   "welcome-onboarding-email",
-  async ({ step }) => {
+  async ({ step, payload }) => {
     await step.email(
       "send-email",
       async (inputs) => {
         return {
           subject: "A Successful Test on Novu!",
-          body: renderEmail(inputs),
+          body: renderEmail(inputs, payload),
         };
       },
       {
@@ -57,24 +57,6 @@ echo.workflow(
               default: "https://web.novu.co",
               format: "uri",
             },
-            teamImage: {
-              type: "string",
-              default:
-                "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down",
-              format: "uri",
-            },
-            userImage: {
-              type: "string",
-              default:
-                "https://react-email-demo-48zvx380u-resend.vercel.app/static/vercel-user.png",
-              format: "uri",
-            },
-            arrowImage: {
-              type: "string",
-              default:
-                "https://react-email-demo-bdj5iju9r-resend.vercel.app/static/vercel-arrow.png",
-              format: "uri",
-            },
           },
         },
       },
@@ -83,7 +65,24 @@ echo.workflow(
   { payloadSchema: { 
       type: "object", 
       properties: {
-
+        teamImage: {
+          type: "string",
+          default:
+            "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down",
+          format: "uri",
+        },
+        userImage: {
+          type: "string",
+          default:
+            "https://react-email-demo-48zvx380u-resend.vercel.app/static/vercel-user.png",
+          format: "uri",
+        },
+        arrowImage: {
+          type: "string",
+          default:
+            "https://react-email-demo-bdj5iju9r-resend.vercel.app/static/vercel-arrow.png",
+          format: "uri",
+        },
       }
     } 
   },
