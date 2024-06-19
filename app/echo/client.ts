@@ -26,13 +26,38 @@ export const welcomeOnboardingEmail = workflow(
             components: {
               title: "Add Custom Fields:",
               type: "array",
+              default: [{
+                "componentType": "heading",
+                "componentText": "Welcome to Novu"
+              }, {
+                "componentType": "text",
+                "componentText": "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
+              }, {
+                "componentType": "list",
+                "componentListItems": [
+                  {
+                    title: "Send Multi-channel notifications",
+                    body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
+                  },
+                  {
+                    title: "Send Multi-channel notifications",
+                    body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
+                  }
+                ]
+              }, {
+                "componentType": "text",
+                "componentText": "Ready to get started? Click on the button below, and you will see first-hand how easily you can edit this email content."
+              }, {
+                "componentType": "button",
+                "componentText": "Edit Email"
+              }],
               items: {
                 type: "object",
                 properties: {
                   componentType: {
                     type: "string",
                     enum: [
-                      "text", "divider", "button", "button-link", "image", "image-2", "image-3", "heading", "users"
+                      "text", "divider", "button", "button-link", "image", "image-2", "image-3", "heading", "users", "list"
                     ],
                     default: "text",
                   },
@@ -44,17 +69,37 @@ export const welcomeOnboardingEmail = workflow(
                     type: "string",
                     default: "https://enterlink.com",
                     format: "uri",
+                  },
+                  align: {
+                    type: "string",
+                    enum: ["left", "center", "right"],
+                    default: "center",
+                  },
+                  componentListItems: {
+                    type: "array",
+                    default: [],
+                    items: {
+                      type: "object",
+                      properties: {
+                        title: {
+                          type: "string"
+                        },
+                        body: {
+                          type: "string"
+                        }
+                      }
+                    }
                   }
                 },
               },
             },
-            welcomeHeaderText: { 
-              type: "string", 
+            welcomeHeaderText: {
+              type: "string",
               default: "Welcome to Novu {{helloWorld}}"
             },
             belowHeaderText: {
               title: "Text Under The Welcome Header",
-              type: "string", 
+              type: "string",
               default: "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
             },
           },
@@ -62,8 +107,8 @@ export const welcomeOnboardingEmail = workflow(
       },
     );
   },
-  { payloadSchema: { 
-      type: "object", 
+  { payloadSchema: {
+      type: "object",
       properties: {
         teamImage: {
           title: "Team Image",
@@ -97,6 +142,6 @@ export const welcomeOnboardingEmail = workflow(
           default: "Hello World"
         },
       }
-    } 
+    }
   },
 );

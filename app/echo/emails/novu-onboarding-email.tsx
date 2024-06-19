@@ -54,7 +54,7 @@ const PropDefaults: NovuWelcomeEmailProps = {
       Description: (
         <li className="mb-20" key={2}>
           <strong>Add a Notification Center to Your Web App.</strong>{" "}
-          Quickly add new channels and integrate an Inbox (Novu Notification Center) into your apps. 
+          Quickly add new channels and integrate an Inbox (Novu Notification Center) into your apps.
           <Link> Discover and connect multiple notification providers.</Link>
         </li>
       ),
@@ -114,30 +114,28 @@ export const NovuWelcomeEmail = ({
             className="mx-auto my-20"
           />
           <Container className="bg-white p-45">
-            <Text style={heading} className="text-center mt-0">{welcomeHeaderText}</Text>
-            <Section>
-              <Row>
-                <Text className="text-base">
-                   {belowHeaderText}
-                </Text>
-                <Text className="text-base"><strong>Novu</strong> offers the following:</Text>
-              </Row>
-            </Section>
 
-            <ul>
-              {steps?.map(({ Description }) => Description)}  
-            </ul>
 
             {components?.map((item: any, index: any) => {
               return (
-                <Row key={index}>
+                <Section>
                   {item.componentType === "heading" ? (
                     <Column>
-                      <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">{item.componentText}</Heading>
+                      <h1 style={{ textAlign: 'center' }}>
+                        {item.componentText}
+                      </h1>
                     </Column>
                   ) : null}
 
-                  {item.componentType === "button" ? (
+                  {item.componentType === "list" ? (
+                      <Column>
+                        <ul>
+                          {item.componentListItems?.map((item: any, index: number) => (<li className="mb-20" key={index}><strong>{item.title}</strong> {item.body}</li>))}
+                        </ul>
+                      </Column>
+                  ) : null}
+
+                  {item.componentType === 'button' ? (
                     <Column>
                       <Button
                         className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
@@ -155,40 +153,42 @@ export const NovuWelcomeEmail = ({
 
                   {item.componentType === "image" ? (
                     <Column>
-                    <Img
-                        src={`https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down`}
-                        width="100"
-                        height="100"
-                        alt="first image"
-                        className="mx-auto my-20"
-                    />
+                      <Img
+                          src={`https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down`}
+                          width="100"
+                          height="100"
+                          alt="first image"
+                          className="mx-auto my-20"
+                      />
                     </Column>
                   ) : null}
 
                   {item.componentType === "image-2" ? (
                     <Column>
-                    <Img
-                        src={`https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRhamt1NjhsbGJjdm02c3FxbncxejgwdWhtaGU3cWh4cnZhOGhsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ae7SI3LoPYj8Q/giphy.webp`}
-                        alt="second image"
-                        className="mx-auto my-20"
-                    />
+                      <Img
+                          src={`https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRhamt1NjhsbGJjdm02c3FxbncxejgwdWhtaGU3cWh4cnZhOGhsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ae7SI3LoPYj8Q/giphy.webp`}
+                          alt="second image"
+                          className="mx-auto my-20"
+                      />
                     </Column>
                   ) : null}
 
                   {item.componentType === "image-3" ? (
                     <Column>
-                    <Img
-                        src={`https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzVka3F4M2ExM3F3djUzdjVjM2x5ZXdtYjJzbnR1bTJvMm02Y2lsbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qRCXNcgACZ3aQqG1h6/giphy.webp`}
-                        alt="third image"
-                        className="mx-auto my-20"
-                    />
+                      <Img
+                          src={`https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzVka3F4M2ExM3F3djUzdjVjM2x5ZXdtYjJzbnR1bTJvMm02Y2lsbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qRCXNcgACZ3aQqG1h6/giphy.webp`}
+                          alt="third image"
+                          className="mx-auto my-20"
+                      />
                     </Column>
                   ) : null}
 
                   {item.componentType === "text" ? (
-                    <Column>
-                      <Text className="text-[#666666] text-[12px] leading-[24px]">{item.componentText}</Text>
-                    </Column>
+                      <Section>
+                        <Text className={'text-base ' + 'text-' + item.align}>
+                          {item.componentText}
+                        </Text>
+                      </Section>
                   ) : null}
                   {item.componentType === "divider" ? (
                     <Column>
@@ -213,28 +213,17 @@ export const NovuWelcomeEmail = ({
                       </Section>
                     </Column>
                   ) : null}
-                </Row>
+                </Section>
               );
             })}
 
-            <Section className="text-center">
-              <Text className="text-base">
-                Ready to get started? Click on the button below, and you will see first-hand how easily you can edit this email content.
-              </Text>
-            </Section>
-
-            <Section className="text-center">
-              <Link href={editEmailLink} className="rounded-lg bg-brand rounded text-white p-2.5">Edit Email</Link>
-            </Section>
-
             <Section className="mt-45">
               <Row>
-                {links?.map((link) => (
-                  <Column key={link}>
+                {links?.map((item: any, index) => (
+                  <Column key={index}>
                     <Link className="text-black underline font-bold">
-                      {link}
-                    </Link>{" "}
-                    
+                      <strong>{item.title}</strong> {item.body}
+                    </Link>
                   </Column>
                 ))}
               </Row>
