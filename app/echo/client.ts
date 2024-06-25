@@ -1,11 +1,38 @@
 import { Client, workflow } from "@novu/framework";
 import { renderEmail } from "./emails/novu-onboarding-email";
+import { z } from 'zod';
 
 export const client = new Client({
   /**
    * Enable this flag only during local development
    */
   strictAuthentication: false,
+});
+
+const zodSchema = z.object({
+  belowHeaderText: z.string({
+    description: 'Test Desc',
+  }).default("Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products.").describe('Text Under The Welcome Header'),
+  welcomeHeaderText: z.string().default("Welcome to Novu {{helloWorld}}").describe('Welcome Header'),
+
+  components: z.array(z.object({
+    componentType: z.enum([
+      "text",
+      "divider",
+      "button",
+      "image",
+      "heading",
+      "users",
+      "list"
+    ]),
+    componentText: z.string().default(""),
+    componentLink: z.string().url().optional(),
+    align: z.enum(["left", "center", "right"]).default("center"),
+    componentListItems: z.array(z.object({
+      title: z.string(),
+      body: z.string()
+    })).optional(),
+  })),
 });
 
 export const welcomeOnboardingEmail = workflow(
@@ -20,90 +47,7 @@ export const welcomeOnboardingEmail = workflow(
         };
       },
       {
-        inputSchema: {
-          type: "object",
-          properties: {
-            components: {
-              title: "Add Custom Fields:",
-              type: "array",
-              default: [{
-                "componentType": "heading",
-                "componentText": "Welcome to Novu"
-              }, {
-                "componentType": "text",
-                "componentText": "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
-              }, {
-                "componentType": "list",
-                "componentListItems": [
-                  {
-                    title: "Send Multi-channel notifications",
-                    body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
-                  },
-                  {
-                    title: "Send Multi-channel notifications",
-                    body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
-                  }
-                ]
-              }, {
-                "componentType": "text",
-                "componentText": "Ready to get started? Click on the button below, and you will see first-hand how easily you can edit this email content."
-              }, {
-                "componentType": "button",
-                "componentText": "Edit Email"
-              }],
-              items: {
-                type: "object",
-                properties: {
-                  componentType: {
-                    type: "string",
-                    enum: [
-                      "text", "divider", "button", "button-link", "image", "image-2", "image-3", "heading", "users", "list"
-                    ],
-                    default: "text",
-                  },
-                  componentText: {
-                    type: "string",
-                    default: "",
-                  },
-                  componentLink: {
-                    type: "string",
-                    default: "https://enterlink.com",
-                    format: "uri",
-                  },
-                  align: {
-                    type: "string",
-                    enum: ["left", "center", "right"],
-                    default: "center",
-                  },
-                  componentListItems: {
-                    type: "array",
-                    default: [],
-                    items: {
-                      type: "object",
-                      properties: {
-                        title: {
-                          type: "string"
-                        },
-                        body: {
-                          type: "string"
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-            },
-            welcomeHeaderText: {
-              type: "string",
-              default: "Welcome to Novu {{helloWorld}}"
-            },
-            belowHeaderText: {
-              title: "Text Under The Welcome Header",
-              type: "string",
-              default: "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
-            },
-          },
-        },
+        inputSchema: zodSchema,
       },
     );
   },
@@ -145,3 +89,89 @@ export const welcomeOnboardingEmail = workflow(
     }
   },
 );
+
+
+const schema = {
+  type: "object",
+  properties: {
+    components: {
+      title: "Add Custom Fields:",
+      type: "array",
+      default: [{
+        "componentType": "heading",
+        "componentText": "Welcome to Novu"
+      }, {
+        "componentType": "text",
+        "componentText": "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
+      }, {
+        "componentType": "list",
+        "componentListItems": [
+          {
+            title: "Send Multi-channel notifications",
+            body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
+          },
+          {
+            title: "Send Multi-channel notifications",
+            body: "You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat."
+          }
+        ]
+      }, {
+        "componentType": "text",
+        "componentText": "Ready to get started? Click on the button below, and you will see first-hand how easily you can edit this email content."
+      }, {
+        "componentType": "button",
+        "componentText": "Edit Email"
+      }],
+      items: {
+        type: "object",
+        properties: {
+          componentType: {
+            type: "string",
+            enum: [
+              "text", "divider", "button", "button-link", "image", "image-2", "image-3", "heading", "users", "list"
+            ],
+            default: "text",
+          },
+          componentText: {
+            type: "string",
+            default: "",
+          },
+          componentLink: {
+            type: "string",
+            default: "https://enterlink.com",
+            format: "uri",
+          },
+          align: {
+            type: "string",
+            enum: ["left", "center", "right"],
+            default: "center",
+          },
+          componentListItems: {
+            type: "array",
+            default: [],
+            items: {
+              type: "object",
+              properties: {
+                title: {
+                  type: "string"
+                },
+                body: {
+                  type: "string"
+                }
+              }
+            }
+          }
+        },
+      },
+    },
+    welcomeHeaderText: {
+      type: "string",
+      default: "Welcome to Novu {{helloWorld}}"
+    },
+    belowHeaderText: {
+      title: "Text Under The Welcome Header",
+      type: "string",
+      default: "Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products."
+    },
+  },
+}
