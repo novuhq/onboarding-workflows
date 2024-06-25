@@ -73,11 +73,7 @@ const PropDefaults: NovuWelcomeEmailProps = {
 };
 
 export const NovuWelcomeEmail = ({
-  steps = PropDefaults.steps,
   links = PropDefaults.links,
-  welcomeHeaderText,
-  belowHeaderText,
-  editEmailLink,
   components,
   userImage,
   teamImage,
@@ -114,8 +110,6 @@ export const NovuWelcomeEmail = ({
             className="mx-auto my-20"
           />
           <Container className="bg-white p-45">
-
-
             {components?.map((item: any, index: any) => {
               return (
                 <Section>

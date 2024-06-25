@@ -2,19 +2,9 @@ import { Client, workflow } from "@novu/framework";
 import { renderEmail } from "./emails/novu-onboarding-email";
 import { z } from 'zod';
 
-export const client = new Client({
-  /**
-   * Enable this flag only during local development
-   */
-  strictAuthentication: false,
-});
+
 
 const zodSchema = z.object({
-  belowHeaderText: z.string({
-    description: 'Test Desc',
-  }).default("Congratulations on receiving your first notification email from Novu! Join the hundreds of thousands of developers worldwide who use Novu to build notification platforms for their products.").describe('Text Under The Welcome Header'),
-  welcomeHeaderText: z.string().default("Welcome to Novu {{helloWorld}}").describe('Welcome Header'),
-
   components: z.array(z.object({
     componentType: z.enum([
       "text",
@@ -51,7 +41,8 @@ export const welcomeOnboardingEmail = workflow(
       },
     );
   },
-  { payloadSchema: {
+  {
+    payloadSchema: {
       type: "object",
       properties: {
         teamImage: {
@@ -83,9 +74,8 @@ export const welcomeOnboardingEmail = workflow(
         },
         helloWorld: {
           type: "string",
-          default: "Hello World"
         },
-      }
+      },
     }
   },
 );
