@@ -4,10 +4,8 @@ import {
   Column,
   Container,
   Head,
-  Heading,
   Html,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -17,63 +15,27 @@ import {
   render,
 } from "@react-email/components";
 import * as React from "react";
+import { ControlSchema, EmailComponent, ListElementComponent, PayloadSchema } from "../zod/types";
 
 interface NovuWelcomeEmailProps {
   steps?: {
     id: number;
     Description: React.ReactNode;
   }[];
-  links?: string[];
   welcomeHeaderText?: string;
   belowHeaderText?: string;
-  editEmailLink?: string;
   colorChange?: string;
-  components?: any;
-  userImage?: string;
-  teamImage?: string;
-  arrowImage?: string;
+  components?: EmailComponent[];
+  userImage: string;
+  teamImage: string;
+  arrowImage: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 
-const PropDefaults: NovuWelcomeEmailProps = {
-  steps: [
-    {
-      id: 1,
-      Description: (
-        <li className="mb-20" key={1}>
-          <strong>Send Multi-channel notifications.</strong>{" "}
-          You can send notifications to your users via multiple channels (Email, SMS, Push, and In-App) in a heartbeat.
-        </li>
-      ),
-    },
-    {
-      id: 2,
-      Description: (
-        <li className="mb-20" key={2}>
-          <strong>Add a Notification Center to Your Web App.</strong>{" "}
-          Quickly add new channels and integrate an Inbox (Novu Notification Center) into your apps.
-          <Link> Discover and connect multiple notification providers.</Link>
-        </li>
-      ),
-    },
-    {
-      id: 3,
-      Description: (
-        <li className="mb-20" key={3}>
-          <strong>Notification Content Management.</strong>{" "}
-          Product and marketing teams want to edit, update and manage notification content recurrently, while engineering teams want to be left alone to build software without constant interrupts.
-        </li>
-      ),
-    },
-  ],
-  links: ["Join the Community", "Read the docs", "Contact an expert"],
-};
-
 export const NovuWelcomeEmail = ({
-  links = PropDefaults.links,
   components,
   userImage,
   teamImage,
@@ -110,9 +72,9 @@ export const NovuWelcomeEmail = ({
             className="mx-auto my-20"
           />
           <Container className="bg-white p-45">
-            {components?.map((item: any, index: any) => {
+            {components?.map((item: EmailComponent, index: number) => {
               return (
-                <Section>
+                <Section key={index}>
                   {item.componentType === "heading" ? (
                     <Column>
                       <h1 style={{ textAlign: 'center' }}>
@@ -124,7 +86,7 @@ export const NovuWelcomeEmail = ({
                   {item.componentType === "list" ? (
                       <Column>
                         <ul>
-                          {item.componentListItems?.map((item: any, index: number) => (<li className="mb-20" key={index}><strong>{item.title}</strong> {item.body}</li>))}
+                          {item.componentListItems?.map((item: ListElementComponent, index: number) => (<li className="mb-20" key={index}><strong>{item.title}</strong> {item.body}</li>))}
                         </ul>
                       </Column>
                   ) : null}
@@ -139,39 +101,13 @@ export const NovuWelcomeEmail = ({
                     </Column>
                   ) : null}
 
-                  {item.componentType === "button-link" ? (
-                    <Column>
-                      <Link href={item.componentLink} className="rounded-lg bg-brand rounded text-white p-2.5">{item.componentText}</Link>
-                    </Column>
-                  ) : null}
-
                   {item.componentType === "image" ? (
                     <Column>
                       <Img
-                          src={`https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dca73b36-cf39-4e28-9bc7-8a0d0cd8ac70/standalone-gradient2x_2/w=128,quality=90,fit=scale-down`}
+                          src={item.src}
                           width="100"
                           height="100"
                           alt="first image"
-                          className="mx-auto my-20"
-                      />
-                    </Column>
-                  ) : null}
-
-                  {item.componentType === "image-2" ? (
-                    <Column>
-                      <Img
-                          src={`https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGRhamt1NjhsbGJjdm02c3FxbncxejgwdWhtaGU3cWh4cnZhOGhsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ae7SI3LoPYj8Q/giphy.webp`}
-                          alt="second image"
-                          className="mx-auto my-20"
-                      />
-                    </Column>
-                  ) : null}
-
-                  {item.componentType === "image-3" ? (
-                    <Column>
-                      <Img
-                          src={`https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzVka3F4M2ExM3F3djUzdjVjM2x5ZXdtYjJzbnR1bTJvMm02Y2lsbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qRCXNcgACZ3aQqG1h6/giphy.webp`}
-                          alt="third image"
                           className="mx-auto my-20"
                       />
                     </Column>
@@ -210,18 +146,6 @@ export const NovuWelcomeEmail = ({
                 </Section>
               );
             })}
-
-            <Section className="mt-45">
-              <Row>
-                {links?.map((item: any, index) => (
-                  <Column key={index}>
-                    <Link className="text-black underline font-bold">
-                      <strong>{item.title}</strong> {item.body}
-                    </Link>
-                  </Column>
-                ))}
-              </Row>
-            </Section>
           </Container>
 
           <Container className="mt-20">
@@ -244,6 +168,6 @@ const heading = {
   color: "#000000",
 };
 
-export function renderEmail(inputs: any, payload: any) {
-  return render(<NovuWelcomeEmail {...inputs} {...payload} />);
+export function renderEmail(controls: ControlSchema, payload: PayloadSchema) {
+  return render(<NovuWelcomeEmail {...controls} {...payload} />);
 }
