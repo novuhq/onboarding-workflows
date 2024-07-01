@@ -15,7 +15,7 @@ import {
   render,
 } from '@react-email/components';
 import * as React from 'react';
-import { ControlSchema, EmailComponent, ListElementComponent, PayloadSchema } from '../schemas/types';
+import { ControlSchema, EmailComponent, PayloadSchema } from '../schemas/types';
 
 interface NovuWelcomeEmailProps {
   steps?: {
@@ -72,39 +72,39 @@ export const NovuWelcomeEmail = ({
             className='mx-auto my-20'
           />
           <Container className='bg-white p-45'>
-            {components?.map((item, componentIndex) => {
+            {components?.map((component, componentIndex) => {
               return (
                 <Section key={componentIndex}>
-                  {item.componentType === 'heading' ? (
+                  {component.componentType === 'heading' ? (
                     <Column>
                       <h1 style={{ textAlign: 'center' }}>
-                        {item.componentText}
+                        {component.componentText}
                       </h1>
                     </Column>
                   ) : null}
 
-                  {item.componentType === 'list' ? (
+                  {component.componentType === 'list' ? (
                       <Column>
                         <ul>
-                          {item.componentListItems?.map((item, listItemIndex) => (<li className='mb-20' key={listItemIndex}><strong>{item.title}</strong> {item.body}</li>))}
+                          {component.componentListItems?.map((listItem, listItemIndex) => (<li className='mb-20' key={listItemIndex}><strong>{listItem.title}</strong> {listItem.body}</li>))}
                         </ul>
                       </Column>
                   ) : null}
 
-                  {item.componentType === 'button' ? (
+                  {component.componentType === 'button' ? (
                     <Column>
                       <Button
                         className='bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3'
                       >
-                        {item.componentText}
+                        {component.componentText}
                       </Button>
                     </Column>
                   ) : null}
 
-                  {item.componentType === 'image' ? (
+                  {component.componentType === 'image' ? (
                     <Column>
                       <Img
-                          src={item.src}
+                          src={component.src}
                           width='100'
                           height='100'
                           alt='first image'
@@ -113,20 +113,20 @@ export const NovuWelcomeEmail = ({
                     </Column>
                   ) : null}
 
-                  {item.componentType === 'text' ? (
+                  {component.componentType === 'text' ? (
                       <Section>
-                        <Text className={'text-base ' + 'text-' + item.align}>
-                          {item.componentText}
+                        <Text className={'text-base ' + 'text-' + component.align}>
+                          {component.componentText}
                         </Text>
                       </Section>
                   ) : null}
-                  {item.componentType === 'divider' ? (
+                  {component.componentType === 'divider' ? (
                     <Column>
                       {' '}
                       <Hr className='border border-solid border-[#eaeaea] my-[26px] mx-0 w-full' />
                     </Column>
                   ) : null}
-                  {item.componentType === 'users' ? (
+                  {component.componentType === 'users' ? (
                     <Column>
                       <Section>
                         <Row>
