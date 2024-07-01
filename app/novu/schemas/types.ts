@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { zodControlSchema, zodPayloadSchema, componentTypeSchema, emailListElementTypeSchema } from './schemas';
+import { zodControlSchema, zodPayloadSchema, componentTypeSchema, emailListElementTypeSchema } from './definitions';
 
 export type ControlSchema = z.infer<typeof zodControlSchema>;
 export type PayloadSchema = z.infer<typeof zodPayloadSchema>;
