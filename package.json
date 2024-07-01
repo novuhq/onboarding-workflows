@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@novu/framework": "^0.24.3-alpha.9",
+    "@novu/framework": "latest",
     "@react-email/components": "^0.0.17",
     "@react-email/tailwind": "0.0.16",
     "next": "14.2.3",
